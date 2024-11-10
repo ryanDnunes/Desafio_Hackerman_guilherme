@@ -105,9 +105,12 @@
             })
             .catch(error => {
                 console.error('Erro ao buscar personagem:', error);
+                criar_painel()
             });
     } else {
         alert("Personagem não encontrado.");
+        criar_painel()
+        
     }
 }
 
@@ -177,17 +180,41 @@ function atualizarPagina(respostas) {
     let veiculos = respostas[2];
     let especies = respostas[3];
     let planeta = respostas[4][0]; 
+
     var carregamento_dados_persongens = document.getElementById('carregamento_dados_persongens');
     carregamento_dados_persongens.style.display = 'None';
+
     var dados_personagem = document.getElementById('dados_personagem');
     dados_personagem.style.display = 'Block';
-    // Atualiza os dados na página 
-    document.getElementById('filmes').innerHTML = filmes.map(filme => `<div class="mais_profundo"><p class="armazenado">${filme}</p></div>`).join('');
-    document.getElementById('naves').innerHTML = naves.map(nave => `<div class="mais_profundo"><p class="armazenado">${nave}</p></div>`).join('');
-    document.getElementById('veiculos').innerHTML = veiculos.map(veiculo => `<div class="mais_profundo"><p class="armazenado">${veiculo}</p></div>`).join('');
-    document.getElementById('especies').innerHTML = especies.map(especie => `<div class="mais_profundo"><p class="armazenado">${especie}</p></div>`).join('');
-    document.getElementById('planeta').innerHTML = `<div class="mais_profundo"><p class="armazenado">${planeta}</p></div>`;
+
+   
+    filmes = filmes.length > 0 ? filmes : ['N/A'];
+    naves = naves.length > 0 ? naves : ['N/A'];
+    veiculos = veiculos.length > 0 ? veiculos : ['N/A'];
+    especies = especies.length > 0 ? especies : ['N/A'];
+    planeta = planeta ? planeta : 'N/A';
+
+    
+    function estiloTexto(value) {
+        return value === 'N/A' 
+            ? 'color: rgb(174, 174, 174); background-color: rgb(31, 31, 31); border: 1px solid rgb(77, 77, 77); border-radius: 3px;' 
+            : '';
         }
+
+
+    // Atualiza os dados na página, com cor vermelha para 'N/A'
+    document.getElementById('filmes').innerHTML = filmes.map(filme => 
+        `<div class="mais_profundo"><p class="armazenado" style="${estiloTexto(filme)}">${filme}</p></div>`).join('');
+    document.getElementById('naves').innerHTML = naves.map(nave => 
+        `<div class="mais_profundo"><p class="armazenado" style="${estiloTexto(nave)}">${nave}</p></div>`).join('');
+    document.getElementById('veiculos').innerHTML = veiculos.map(veiculo => 
+        `<div class="mais_profundo"><p class="armazenado" style="${estiloTexto(veiculo)}">${veiculo}</p></div>`).join('');
+    document.getElementById('especies').innerHTML = especies.map(especie => 
+        `<div class="mais_profundo"><p class="armazenado" style="${estiloTexto(especie)}">${especie}</p></div>`).join('');
+    document.getElementById('planeta').innerHTML = 
+        `<div class="mais_profundo"><p class="armazenado" style="${estiloTexto(planeta)}">${planeta}</p></div>`;
+}
+
 
 
 function voltar() {
